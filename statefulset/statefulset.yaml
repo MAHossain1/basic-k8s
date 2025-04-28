@@ -3,6 +3,7 @@ kind: StatefulSet
 metadata:
   name: mongo
 spec:
+  serviceName: "mongo" # (optional but recommended for headless service + networking)
   replicas: 3
   selector:
     matchLabels:
@@ -18,7 +19,7 @@ spec:
           command: 
             - "mongod"
             - "--bind_ip_all"
-            - --config=/etc/mongo/mongodb.conf
+            - "--config=/etc/mongo/mongodb.conf"
           env:
             - name: MONGO_INITDB_ROOT_USERNAME
               valueFrom:
@@ -30,6 +31,25 @@ spec:
                 secretKeyRef:
                   name: mongodb-secret
                   key: password
+          ports:
+            - containerPort: 27017
+              name: mongo
+          livenessProbe:
+            tcpSocket:
+              port: 27017
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            tcpSocket:
+              port: 27017
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 3  
           volumeMounts:
             - name: mongo-volume
               mountPath: /data/db  
@@ -52,4 +72,3 @@ spec:
           requests:
             storage: 1Gi
         storageClassName: demo-storage
- 
