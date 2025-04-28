@@ -1,0 +1,21 @@
+
+kubectl exec -it mongo-5c69f5bdd5-qm6zt -- /bin/bash
+
+
+kubectl port-forward svc/mongo-svc 32000:27017 #port forwarding
+
+
+minikube ssh
+sudo ls /var/lib/kubelet/pods  #getpods
+sudo ls /var/lib/kubelet/pods/78480d0c-7aba-496e-9abb-e23339545cad/volumes/kubernetes.io~empty-dir/mongo-volume
+
+
+kubectl get pod mongo-5c69f5bdd5-qm6zt -o yaml
+uid is your pod id
+kubectl get pod mongo-5c69f5bdd5-qm6zt -o jsonpath='{.metadata.uid}'  #get just pod id
+
+
+
+volumes
+kubectl api-resources | grep Persistent
+

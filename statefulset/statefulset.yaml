@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mongo
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+        - name: mongo
+          image: mongo
+          command: 
+            - "mongod"
+            - "--bind_ip_all"
+            - "--replSet"
+            - "rs0"
+            - "--dbpath"
+            - "/data/db"
+            - --config=/etc/mongo/mongodb.conf
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: mongodb-config
+                  key: username
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: mongodb-config
+                  key: password
+          volumeMounts:
+            - name: mongo-volume
+              mountPath: /data/db  
+      
+  volumeClaimTemplates:
+    - metadata:
+        name: mongo-volume
+      spec:
+        accessModes: 
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: demo-storage
+ 
