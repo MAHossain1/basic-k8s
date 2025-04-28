@@ -4,8 +4,7 @@ metadata:
   name: mongodb-config
 immutable: false   #no will be able to change the configmap
 data:  
-  username: admin
-  password: password
+  username: admin1
   mongodb.conf: |
     storage:
       dbPath: /data/db

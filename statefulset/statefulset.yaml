@@ -18,10 +18,6 @@ spec:
           command: 
             - "mongod"
             - "--bind_ip_all"
-            - "--replSet"
-            - "rs0"
-            - "--dbpath"
-            - "/data/db"
             - --config=/etc/mongo/mongodb.conf
           env:
             - name: MONGO_INITDB_ROOT_USERNAME
@@ -31,13 +27,21 @@ spec:
                   key: username
             - name: MONGO_INITDB_ROOT_PASSWORD
               valueFrom:
-                configMapKeyRef:
-                  name: mongodb-config
+                secretKeyRef:
+                  name: mongodb-secret
                   key: password
           volumeMounts:
             - name: mongo-volume
               mountPath: /data/db  
-      
+            - name: mongodb-config
+              mountPath: /etc/mongo
+      volumes:
+        - name: mongodb-config
+          configMap:
+            name: mongodb-config
+            items:
+              - key: mongodb.conf
+                path: mongodb.conf
   volumeClaimTemplates:
     - metadata:
         name: mongo-volume
