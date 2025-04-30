@@ -16,4 +16,27 @@
  1687  kubectl get pods
 
 
- 
+1727  kubectl config -h
+ 1728  kubectl config get-users
+ 1729  kubectl config get-context
+ 1730  kubectl config get-contexts
+ 1731  kubectl config use-context minikube
+ 1732  kubect get sa
+ 1733  kubectl get sa
+ 1734  kubectl apply -f kubectl-pod.yaml
+ 1735  kubectl exec -it kubectl-pod -- bash
+ 1736  kubectl get pod
+ 1737  clear
+ 1738  kubectl exec -it kubectl-pod -- bash
+ 1739  kubectl exec -it kubectl-pod -- /bin/bash
+ 1740  kubectl describe pod kubectl-pod
+ 1741  kubectl get pod
+ 1742  kubectl exec -it kubectl-pod -- /bin/bash
+ 1743  kubectl auth can-i create-auth
+ 1744  kubectl auth can-i create pods
+ 1745  kubectl auth can-i create pods --as="system:serviceaccount:default:test-sa"
+ 1746  kubectl auth can-i get pods --as="system:serviceaccount:default:test-sa"
+ 1747  clear
+ 1748  history
+
+
