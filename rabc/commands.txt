@@ -1,0 +1,19 @@
+ 1672  code ~/.kube/config
+ 1673  rbac % openssl genrsa -out arman.key 2048
+ 1674  openssl genrsa -out arman.key 2048
+ 1675  ls
+ 1676  clear
+ 1677  openssl genrsa -out adib.key 2048
+ 1678  openssl req -new -key adib.key -out adib.csr -subj "/CN=adib/O=dev/0=example.org"
+ 1679  openssl req -new -key adib.key -out adib.csr -subj "/CN=adib/O=dev/O=example.org"
+ 1680  ls | grep adib
+ 1681  openssl x509 -req -in adib.csr   -CA /home/arman/.minikube/ca.crt   -CAkey /home/arman/.minikube/ca.key   -CAcreateserial   -out adib.crt   -days 365
+ 1682  kubectl config set-credentials adib   --client-certificate=adib.crt   --client-key=adib.key
+ 1683  kubectl config set-context adib-context   --cluster=minikube   --user=adib
+ 1684  kubectl config get-contexts
+ 1685  kubectl config use-context adib-context
+ 1686  kubectl config get-contexts
+ 1687  kubectl get pods
+
+
+ 
